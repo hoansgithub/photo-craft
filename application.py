@@ -10,22 +10,22 @@ from io import BytesIO
 from RMBGPkg.helper import Remover
 from Entities.ImageTaskResponse import ImageTaskResponse
 from Entities.AppSecurity import key_required
-app = Flask(__name__)
+application = Flask(__name__)
 UPLOAD_FOLDER = '/tmp'
 ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
+application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 bg_remover = Remover()
 
 #Helpers
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-@app.route("/")
+@application.route("/")
 def hello_world():
     return "Hello, World! 1"
 
-@app.route("/api/removebg", methods=['POST', 'GET'])
+@application.route("/api/removebg", methods=['POST', 'GET'])
 @key_required
 def editor_remove_bg():
     if request.method == 'POST':
@@ -58,5 +58,9 @@ def editor_remove_bg():
     else:
         return "editor/rmbg"
 #
+# run the app.
 if __name__ == "__main__":
-   app.run(port=8000)
+    # Setting debug to True enables debug output. This line should be
+    # removed before deploying a production app.
+    application.debug = True
+    application.run()
