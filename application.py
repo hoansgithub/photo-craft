@@ -59,4 +59,4 @@ def editor_remove_bg():
         return "editor/rmbg"
 #
 if __name__ == "__main__":
-   app.run()
+   app.run(port=8000)
